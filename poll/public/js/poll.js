@@ -102,6 +102,28 @@ function PollUtil (runtime, element, pollType) {
         self.verifyAll();
     };
 
+    this.mlqInit = function () {
+        // Initialization function for Survey Blocks
+
+        // If the user is unable to vote, disable input.
+        if (! $('div.poll-block', element).data('can-vote')) {
+            $('input', element).attr('disabled', true);
+            return
+        }
+        self.answers.bind("change.enableSubmit", self.verifyAll);
+        self.submit.click(function () {
+            $.ajax({
+                type: "POST",
+                url: self.voteUrl,
+                data: JSON.stringify(self.surveyChoices()),
+                success: self.onSubmit
+            })
+        });
+        // If the user has refreshed the page, they may still have an answer
+        // selected and the submit button should be enabled.
+        self.verifyAll();
+    };
+
     this.shouldDisplayResults = function() {
         return $.ajax({
             // Semantically, this would be better as GET, but we can use helper
@@ -214,7 +236,7 @@ function PollUtil (runtime, element, pollType) {
         self.answers.unbind("change.enableSubmit");
     };
 
-    var init_map = {'poll': self.pollInit, 'survey': self.surveyInit};
+    var init_map = {'poll': self.pollInit, 'survey': self.surveyInit, 'mlq': self.mlqInit};
     this.init().done(function(data) {
         // If the submit button doesn't exist, the user has already
         // selected a choice. Render results instead of initializing machinery.

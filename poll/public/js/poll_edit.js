@@ -188,6 +188,23 @@ function PollEditUtil(runtime, element, pollType) {
             ],
             'gather': [{'prefix': 'answer', 'field': 'answers'}, {'prefix': 'question', 'field': 'questions'}]
         }
+        'mlq': {
+            'buttons': {
+                '#poll-add-answer': {
+                    'template': self.makeNew({'image': false, 'noun': 'answer'}),
+                    'topMarker': '#poll-answer-marker', 'bottomMarker': '#poll-answer-end-marker'
+                },
+                '#poll-add-question': {
+                    'template': self.makeNew({'image': true, 'noun': 'question'}),
+                    'topMarker': '#poll-question-marker', 'bottomMarker': '#poll-question-end-marker'
+                }
+            },
+            'onLoad': [
+                {'url': self.loadQuestions, 'function': self.displayQuestions},
+                {'url': self.loadAnswers, 'function': self.displayAnswers}
+            ],
+            'gather': [{'prefix': 'answer', 'field': 'answers'}, {'prefix': 'question', 'field': 'questions'}]
+        }
     };
 
     this.displayItems = function(data, topMarker, bottomMarker) {
