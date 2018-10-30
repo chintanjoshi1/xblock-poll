@@ -26,7 +26,7 @@
                 {% for answer, label in answers %}
                     <td class="survey-option">
                       <label>
-                        <input type="radio"
+                        <input type="checkbox"
                                name="{{key}}"
                                value="{{answer}}"{% if question.choice == answer %} checked{% endif %}
                                aria-labelledby="{{block_id}}-{{answer}}"
