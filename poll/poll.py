@@ -997,7 +997,7 @@ class MLQBlock(PollBase):
         default=[
             ('enjoy', {'label': _('Behaviour 1'), 'img': None, 'img_alt': None}),
             ('recommend', {'label': _('Behaviour 2'), 'img': None, 'img_alt': None}),
-            ('learn', {'label': _('Behaviour 3'), 'img3': None, 'img_alt': None}),
+            ('learn', {'label': _('Behaviour 3'), 'img': None, 'img_alt': None}),
         ],
         scope=Scope.settings, help=_("Behaviours for the week")
     )
