@@ -287,3 +287,7 @@ function PollEdit(runtime, element) {
 function SurveyEdit(runtime, element) {
     new PollEditUtil(runtime, element, 'survey');
 }
+
+function MlqEdit(runtime, element) {
+    new PollEditUtil(runtime, element, 'mlq');
+}

@@ -59,6 +59,7 @@ setup(
         'xblock.v1': [
             'poll = poll:PollBlock',
             'survey = poll:SurveyBlock',
+            'mlq = poll:MLQBlock',
         ]
     },
     package_data=package_data("poll", ["static", "public", "translations"]),

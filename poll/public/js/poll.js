@@ -2,17 +2,14 @@
 
 function PollUtil (runtime, element, pollType) {
     var self = this;
-    var exportStatus = {};
 
     this.init = function() {
         // Initialization function used for both Poll Types
         this.voteUrl = runtime.handlerUrl(element, 'vote');
         this.tallyURL = runtime.handlerUrl(element, 'get_results');
-        this.csv_url= runtime.handlerUrl(element, 'csv_export');
         this.votedUrl = runtime.handlerUrl(element, 'student_voted');
         this.submit = $('input[type=button]', element);
         this.answers = $('input[type=radio]', element);
-        this.errorMessage = $('.error-message', element);
 
         // Set up gettext in case it isn't available in the client runtime:
         if (typeof gettext == "undefined") {
@@ -40,25 +37,10 @@ function PollUtil (runtime, element, pollType) {
                 });
         });
 
-
-        // Add helper for equality check
-        Handlebars.registerHelper('if_eq', function(a, b, opts) {
-            if(a == b)
-                return opts.fn(this);
-            else
-                return opts.inverse(this);
-        });
-
         this.resultsTemplate = Handlebars.compile($("." + pollType + "-results-template", element).html());
 
         this.viewResultsButton = $('.view-results-button', element);
         this.viewResultsButton.click(this.getResults);
-
-        this.exportResultsButton = $('.export-results-button', element);
-        this.exportResultsButton.click(this.exportCsv);
-
-        this.downloadResultsButton = $('.download-results-button', element);
-        this.downloadResultsButton.click(this.downloadCsv);
 
         return this.shouldDisplayResults();
     };
@@ -68,8 +50,6 @@ function PollUtil (runtime, element, pollType) {
         var selector = 'input[name=choice]:checked';
         var radio = $(selector, element);
         self.submit.click(function () {
-            // Disable the submit button to avoid multiple clicks
-            self.disableSubmit();
             // We can't just use radio.selector here because the selector
             // is mangled if this is the first time this XBlock is added in
             // studio.
@@ -110,8 +90,6 @@ function PollUtil (runtime, element, pollType) {
         }
         self.answers.bind("change.enableSubmit", self.verifyAll);
         self.submit.click(function () {
-            // Disable the submit button to avoid multiple clicks
-            self.disableSubmit();
             $.ajax({
                 type: "POST",
                 url: self.voteUrl,
@@ -181,57 +159,12 @@ function PollUtil (runtime, element, pollType) {
             thanks.fadeOut(0).fadeIn('slow', 'swing');
             $('.poll-feedback-container', element).removeClass('poll-hidden');
             if (!can_vote) {
-                // Disable all types of input within the element,
-                // Radio button choices and the submit button.
-                $('input', element).attr('disabled', true);
-            } else {
-                // Enable the submit button.
-                self.enableSubmit();
+                $('input', element).attr('disabled', true)
             }
             return;
         }
         // Used if results are not private, to show the user how other students voted.
         self.getResults();
-    };
-
-    function getStatus() {
-        $.ajax({
-            type: 'POST',
-            url: runtime.handlerUrl(element, 'get_export_status'),
-            data: '{}',
-            success: updateStatus,
-            dataType: 'json'
-        });
-    }
-
-    function updateStatus(newStatus) {
-        var statusChanged = ! _.isEqual(newStatus, exportStatus);
-        exportStatus = newStatus;
-        if (exportStatus.export_pending) {
-            // Keep polling for status updates when an export is running.
-            setTimeout(getStatus, 1000);
-        }
-        if (statusChanged) {
-            if (newStatus.last_export_result.error) {
-                self.errorMessage.text(error);
-                self.errorMessage.show();
-            } else {
-                self.downloadResultsButton.attr('disabled', false);
-                self.errorMessage.hide()
-            }
-        }
-    }
-
-    this.exportCsv = function() {
-        $.ajax({
-            type: "POST",
-            url: self.csv_url,
-            data: JSON.stringify({}),
-            success: updateStatus
-        });
-    };
-    this.downloadCsv = function() {
-        window.location = exportStatus.download_url;
     };
 
     this.getResults = function () {
@@ -269,16 +202,11 @@ function PollUtil (runtime, element, pollType) {
             data: JSON.stringify({}),
             success: function (data) {
                 $('div.poll-block', element).html(self.resultsTemplate(data));
-                $('.poll-results-wrapper', element).focus();
+                $('.poll-results-wrapper').focus();
                 whenImagesLoaded(adjustGaugeBackground);
             }
         });
     };
-
-    this.disableSubmit = function() {
-        // Disable the submit button.
-        self.submit.attr("disabled", true);
-    }
 
     this.enableSubmit = function () {
         // Enable the submit button.
@@ -313,4 +241,8 @@ function PollBlock(runtime, element) {
 
 function SurveyBlock(runtime, element) {
     new PollUtil(runtime, element, 'survey');
+}
+
+function MlqBlock(runtime, element) {
+    new PollUtil(runtime, element, 'mlq');
 }
