@@ -9,7 +9,12 @@ function PollUtil (runtime, element, pollType) {
         this.tallyURL = runtime.handlerUrl(element, 'get_results');
         this.votedUrl = runtime.handlerUrl(element, 'student_voted');
         this.submit = $('input[type=button]', element);
-        this.answers = $('input[type=radio]', element);
+        if (pollType == "mlq"){ 
+            this.answers = $('input[type=checkbox]', element);
+        }
+        else{
+            this.answers = $('input[type=radio]', element);
+        }
 
         // Set up gettext in case it isn't available in the client runtime:
         if (typeof gettext == "undefined") {

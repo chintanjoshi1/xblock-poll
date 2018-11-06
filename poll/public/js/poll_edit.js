@@ -187,7 +187,7 @@ function PollEditUtil(runtime, element, pollType) {
                 {'url': self.loadAnswers, 'function': self.displayAnswers}
             ],
             'gather': [{'prefix': 'answer', 'field': 'answers'}, {'prefix': 'question', 'field': 'questions'}]
-        }
+        },
         'mlq': {
             'buttons': {
                 '#poll-add-answer': {

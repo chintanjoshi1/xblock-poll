@@ -30,6 +30,13 @@
                                     {{/if_eq}}
                                 {{/each}}
                             </span>
+                              <label>
+                                <input type="checkbox"
+                                       name="{{key}}"
+                                       value="{{answer}}"{{#if choice}} checked{{/if}}
+                                       aria-labelledby="{{block_id}}-{{answer}}"
+                                       />
+                              </label>
                             <span class="percentage">{{percent}}%</span>
                         </td>
                     {{/each}}

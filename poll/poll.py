@@ -1009,7 +1009,7 @@ class MLQBlock(PollBase):
         help=_("Total tally of answers from students.")
     )
     choices = Dict(help=_("The user's answers"), scope=Scope.user_state)
-    event_namespace = 'xblock.survey'
+    event_namespace = 'xblock.mlq'
 
     def student_view(self, context=None):
         """
