@@ -1115,7 +1115,7 @@ class MLQBlock(PollBase):
             highest = 0
             top_index = None
             for index, answer in enumerate(question['answers']):
-                if answer['key'] == choices.get(question['key']):
+                if answer['key'] in choices.get(question['key']):
                     answer['choice'] = True
                 # Find the most popular choice.
                 if answer['count'] > highest:
@@ -1189,9 +1189,10 @@ class MLQBlock(PollBase):
             self.remove_vote()
             return None
         for value in self.choices.values():
-            if value not in answers:
-                self.remove_vote()
-                return None
+            for val in value:
+                if val not in answers:
+                    self.remove_vote()
+                    return None
         return self.choices
 
     @PollBase.static_replace_json_handler
@@ -1269,14 +1270,15 @@ class MLQBlock(PollBase):
 
         # Make sure the answer values are sane.
         for key, value in data.items():
-            if value not in answers.keys():
-                result['success'] = False
-                result['errors'].append(
-                    self.ugettext(
-                        # Translators: {answer_key} uniquely identifies a specific answer belonging to a poll or survey.
-                        # {question_key} uniquely identifies a specific question belonging to a poll or survey.
-                        "Found unknown answer '{answer_key}' for question key '{question_key}'"
-                    ).format(answer_key=key, question_key=value))
+            for val in value:
+                if val not in answers.keys():
+                    result['success'] = False
+                    result['errors'].append(
+                        self.ugettext(
+                            # Translators: {answer_key} uniquely identifies a specific answer belonging to a poll or survey.
+                            # {question_key} uniquely identifies a specific question belonging to a poll or survey.
+                            "Found unknown answer '{answer_key}' for question key '{question_key}'"
+                        ).format(answer_key=key, question_key=value))
 
         if not result['success']:
             result['can_vote'] = self.can_vote()
@@ -1288,7 +1290,8 @@ class MLQBlock(PollBase):
         self.choices = data
         self.clean_tally()
         for key, value in self.choices.items():
-            self.tally[key][value] += 1
+            for val in value:
+                self.tally[key][val] += 1
         self.submissions_count += 1
 
         self.send_vote_event({'choices': self.choices})

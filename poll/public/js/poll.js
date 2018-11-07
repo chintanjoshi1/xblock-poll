@@ -109,7 +109,7 @@ function PollUtil (runtime, element, pollType) {
 
     this.mlqInit = function () {
         // Initialization function for Survey Blocks
-
+        self.name = "mlq";
         // If the user is unable to vote, disable input.
         if (! $('div.poll-block', element).data('can-vote')) {
             $('input', element).attr('disabled', true);
@@ -144,7 +144,13 @@ function PollUtil (runtime, element, pollType) {
         var choices = {};
         self.answers.each(function(index, el) {
             el = $(el);
-            choices[el.prop('name')] = $(self.checkedElement(el), element).val();
+            if (self.name == 'mlq'){
+                 choices[el.prop('name')] = $(self.checkedElement(el)).map(function () {return this.value;}).get();
+            }
+            else{
+                choices[el.prop('name')] = $(self.checkedElement(el), element).val();
+            }
+
         });
         return choices;
     };
