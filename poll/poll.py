@@ -982,6 +982,7 @@ class MLQBlock(PollBase):
     # pylint: disable=too-many-instance-attributes
 
     display_name = String(default=_('MLQBlock'))
+    max_submissions = Integer(default=7, help=_("The maximum number of times a user may send a submission."))
     # The display name affects how the block is labeled in the studio,
     # but either way we want it to say 'Poll' by default on the page.
     block_name = String(default=_('MLQ'))
