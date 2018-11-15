@@ -1,3 +1,4 @@
+{% load i18n %}
 {{ js_template|safe }}
 <div class="poll-block themed-xblock" data-private="{% if private_results %}1{% endif %}"
      data-can-vote="{% if can_vote %}1{% endif %}">
@@ -28,7 +29,10 @@
                       <label>
                         <input type="checkbox"
                                name="{{key}}"
-                               value="{{answer}}"{% if question.choice == answer %} checked{% endif %}
+                               value="{{answer}}"
+                               {% for single_choice in question.choice %}
+                                  {% if single_choice == answer %} checked{% endif %}
+                                {% endfor %}
                                aria-labelledby="{{block_id}}-{{answer}}"
                                />
                       </label>

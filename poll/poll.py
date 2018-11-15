@@ -1173,8 +1173,9 @@ class MLQBlock(PollBase):
         answers = dict(self.answers)
         for key, value in self.choices.items():
             if key in questions:
-                if value in answers:
-                    self.tally[key][value] -= 1
+                for val in value:
+                    if val in answers:
+                        self.tally[key][val] -= 1
         self.choices = None
         self.save()
 
