@@ -9,6 +9,7 @@
                     {{#each answers}}
                         <th id="answer-{{key}}-{{../block_id}}" class="survey-answer">{{{label}}}</th>
                     {{/each}}
+                    <th class="survey-answer">{{i18n "Total"}}</th>
                 </tr>
             </thead>
             {{#each tally}}
@@ -37,14 +38,11 @@
                               </label>
                         </td>
                     {{/each}}
+                    <td class="survey-percentage survey-opinion"> {{checked_count}} </td>
                 </tr>
             {{/each}}
         </table>
         <input class="input-main" type="button" name="poll-submit" value="Submit" disabled>
-        <div class="poll-footnote">
-            {{interpolate (i18n_ngettext "Results gathered from {total} respondent." "Results gathered from {total} respondents." total) total=total}}
-        </div>
-
         {{#if feedback}}
             <hr />
             <h3 class="poll-header">{{i18n "Feedback" }}</h3>

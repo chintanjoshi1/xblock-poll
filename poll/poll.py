@@ -983,6 +983,7 @@ class MLQBlock(PollBase):
 
     display_name = String(default=_('MLQBlock'))
     max_submissions = Integer(default=7, help=_("The maximum number of times a user may send a submission."))
+    private_results = Boolean(default=True, help=_("Whether or not to display results to the user."))
     # The display name affects how the block is labeled in the studio,
     # but either way we want it to say 'Poll' by default on the page.
     block_name = String(default=_('MLQ'))
@@ -1110,6 +1111,7 @@ class MLQBlock(PollBase):
                     for answer_key, count in answer_set.items()],
                 'key': key,
                 'choice': False,
+                'checked_count': sum(answer_set.values()),
             })
 
         for question in tally:
