@@ -117,7 +117,7 @@ function PollEditUtil(runtime, element, pollType) {
 
         // A 'key' element will have to be added after the fact, since it needs to be
         // generated with the current time.
-        return self.extend({'text': '', 'img': '', 'img_alt': ''}, extra)
+        return self.extend({'text': '', 'img': '', 'img_alt': '', 'score': '0.1'}, extra)
     };
 
     this.empowerDeletes = function (scope) {
@@ -201,9 +201,9 @@ function PollEditUtil(runtime, element, pollType) {
             },
             'onLoad': [
                 {'url': self.loadQuestions, 'function': self.displayQuestions},
-                {'url': self.loadAnswers, 'function': self.displayAnswers}
+                {'url': self.loadAnswers}
             ],
-            'gather': [{'prefix': 'answer', 'field': 'answers'}, {'prefix': 'question', 'field': 'questions'}]
+            'gather': [{'prefix': 'question', 'field': 'questions'}]
         }
     };
 

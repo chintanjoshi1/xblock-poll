@@ -982,6 +982,7 @@ class MLQBlock(PollBase):
     # pylint: disable=too-many-instance-attributes
 
     display_name = String(default=_('MLQBlock'))
+    has_score = True
     max_submissions = Integer(default=7, help=_("The maximum number of times a user may send a submission."))
     private_results = Boolean(default=True, help=_("Whether or not to display results to the user."))
     # The display name affects how the block is labeled in the studio,
@@ -997,9 +998,9 @@ class MLQBlock(PollBase):
     )
     questions = List(
         default=[
-            ('enjoy', {'label': _('Behaviour 1'), 'img': None, 'img_alt': None}),
-            ('recommend', {'label': _('Behaviour 2'), 'img': None, 'img_alt': None}),
-            ('learn', {'label': _('Behaviour 3'), 'img': None, 'img_alt': None}),
+            ('enjoy', {'label': _('Behaviour 1'), 'img': None, 'img_alt': None, 'score':0.1}),
+            ('recommend', {'label': _('Behaviour 2'), 'img': None, 'img_alt': None, 'score':0.1}),
+            ('learn', {'label': _('Behaviour 3'), 'img': None, 'img_alt': None, 'score':0.1}),
         ],
         scope=Scope.settings, help=_("Behaviours for the week")
     )
