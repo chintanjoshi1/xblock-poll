@@ -173,6 +173,8 @@ function PollUtil (runtime, element, pollType) {
         if (doEnable){
             self.enableSubmit();
         }
+            self.enableSubmit();
+        
     };
 
     this.onSubmit = function (data) {
