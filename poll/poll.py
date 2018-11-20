@@ -1250,6 +1250,8 @@ class MLQBlock(PollBase):
         questions = dict(self.questions)
         answers = dict(self.answers)
         result = {'success': True, 'errors': []}
+        max_score = 0
+        value = 0
         choices = self.get_choices()
         if choices and not self.private_results:
             result['success'] = False
@@ -1299,6 +1301,14 @@ class MLQBlock(PollBase):
             for val in value:
                 self.tally[key][val] += 1
         self.submissions_count += 1
+
+        if self.submissions_count == self.max_submissions:
+            for key in data.keys():
+                max_score += questions[key]['score'] * 7
+            for value in self.tally.items():
+                value += sum(value.values())
+            grade_event = {'value': value, 'max_value': max_score}
+            self.runtime.publish(self, 'grade', grade_event)
 
         self.send_vote_event({'choices': self.choices})
         result['can_vote'] = self.can_vote()

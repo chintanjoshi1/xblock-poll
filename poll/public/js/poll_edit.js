@@ -201,9 +201,9 @@ function PollEditUtil(runtime, element, pollType) {
             },
             'onLoad': [
                 {'url': self.loadQuestions, 'function': self.displayQuestions},
-                {'url': self.loadAnswers}
+                {'url': self.loadAnswers, 'function': self.displayAnswers}
             ],
-            'gather': [{'prefix': 'question', 'field': 'questions'}]
+            'gather': [{'prefix': 'question', 'field': 'questions'}, {'prefix': 'answer', 'field': 'answers'}]
         }
     };
 
