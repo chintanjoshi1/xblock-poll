@@ -16,7 +16,6 @@
                 </thead>
             {% for key, question in questions %}
                 <tr class="survey-row" role="group" aria-labelledby="{{block_id}}-{{key}}">
-                  {% if not question.score%}
                     <th id="{{block_id}}-{{key}}" class="survey-question">
                         {% if question.img %}
                             <div class="poll-image-td">
@@ -25,7 +24,6 @@
                         {% endif %}
                       {{question.label|safe}}
                     </th>
-                  {% endif %}
                 {% for answer, label in answers %}
                     <td class="survey-option">
                       <label>

@@ -120,7 +120,7 @@ class PollBase(XBlock, ResourceMixin, PublishEventMixin):
         """
         Convert all items' labels into markdown.
         """
-        return [(key, {'label': markdown(value['label']), 'img': value['img'], 'img_alt': value.get('img_alt')})
+        return [(key, {'label': markdown(value['label']), 'img': value['img'], 'img_alt': value.get('img_alt'),'score':value.get('score')})
                 for key, value in items]
 
     def _get_block_id(self):
@@ -161,7 +161,6 @@ class PollBase(XBlock, ResourceMixin, PublishEventMixin):
             result['errors'].append(error_message)
         else:
             source_items = data[field]
-
         # Make sure all components are present and clean them.
         for item in source_items:
             if not isinstance(item, dict):
@@ -1046,7 +1045,6 @@ class MLQBlock(PollBase):
             # a11y: Transfer block ID to enable creating unique ids for questions and answers in the template
             'block_id': self._get_block_id(),
         })
-
         return self.create_fragment(
             context, "public/html/mlq.html", "public/css/poll.css",
             "public/js/poll.js", "MlqBlock")

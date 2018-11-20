@@ -227,6 +227,10 @@ function PollEditUtil(runtime, element, pollType) {
         } else if (name.indexOf('label-') == 0) {
             name = name.replace('label-', '');
         }
+        } else if (name.indexOf('score-') == 0) {
+            name = name.replace('score-', '');
+            key = 'img'
+        }
         if (! (scope.name.indexOf(prefix + '-') >= 0)) {
             return
         }
