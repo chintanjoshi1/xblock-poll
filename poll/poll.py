@@ -183,6 +183,7 @@ class PollBase(XBlock, ResourceMixin, PublishEventMixin):
             image_link = item.get('img', '').strip()
             image_alt = item.get('img_alt', '').strip()
             label = item.get('label', '').strip()
+            score = item.get('score', '').strip()
             if not label:
                 if image and not image_link:
                     result['success'] = False
@@ -213,7 +214,7 @@ class PollBase(XBlock, ResourceMixin, PublishEventMixin):
                     )
                 )
             if image:
-                items.append((key, {'label': label, 'img': image_link, 'img_alt': image_alt}))
+                items.append((key, {'label': label, 'img': image_link, 'img_alt': image_alt, 'score':score,}))
             else:
                 items.append([key, label])
 
@@ -1238,7 +1239,7 @@ class MLQBlock(PollBase):
             'items': [
                 {
                     'key': key, 'text': value['label'], 'img': value['img'], 'img_alt': value.get('img_alt'),
-                    'noun': 'question', 'image': True,
+                    'noun': 'question', 'image': True, 'score': value['score'],
                 }
                 for key, value in self.questions
             ]

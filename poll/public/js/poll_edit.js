@@ -117,7 +117,7 @@ function PollEditUtil(runtime, element, pollType) {
 
         // A 'key' element will have to be added after the fact, since it needs to be
         // generated with the current time.
-        return self.extend({'text': '', 'img': '', 'img_alt': '', 'score': '0.1'}, extra)
+        return self.extend({'text': '', 'img': '', 'img_alt': '', 'score': ''}, extra)
     };
 
     this.empowerDeletes = function (scope) {
