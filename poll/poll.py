@@ -1303,8 +1303,7 @@ class MLQBlock(PollBase):
         if self.submissions_count == self.max_submissions:
             for key in data.keys():
                 max_score += float(questions[key]['score']) * 7
-            for key, value in self.tally.items():
-                grade_value += sum(value.values())
+                grade_value += len(data[key]) * float(questions[key])
             grade_event = {'value': grade_value, 'max_value': max_score}
             self.runtime.publish(self, 'grade', grade_event)
 
