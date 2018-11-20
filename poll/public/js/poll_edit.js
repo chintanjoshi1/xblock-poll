@@ -224,11 +224,11 @@ function PollEditUtil(runtime, element, pollType) {
         } else if (name.indexOf('img-') == 0) {
             name = name.replace('img-', '');
             key = 'img'
-        } else if (name.indexOf('label-') == 0) {
-            name = name.replace('label-', '');
         } else if (name.indexOf('score-') == 0) {
             name = name.replace('score-', '');
-            key = 'img'
+            key = 'score'
+        } else if (name.indexOf('label-') == 0) {
+            name = name.replace('label-', '');
         }
         if (! (scope.name.indexOf(prefix + '-') >= 0)) {
             return
