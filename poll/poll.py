@@ -24,6 +24,8 @@
 from collections import OrderedDict
 import functools
 import json
+import pytz
+import datetime
 
 from django.template import Template, Context
 from markdown import markdown
@@ -36,6 +38,7 @@ from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from xblockutils.resources import ResourceLoader
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
+from xmodule.util.duedate import get_extended_due_date
 from .utils import _
 
 try:
@@ -1029,6 +1032,7 @@ class MLQBlock(PollBase):
 
         context.update({
             'choices': choices,
+            'due': get_extended_due_date(self) < datetime.datetime.now(tz=pytz.utc),
             # Offset so choices will always be True.
             'answers': self.answers,
             'js_template': js_template,

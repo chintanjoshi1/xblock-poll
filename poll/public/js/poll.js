@@ -246,8 +246,10 @@ function PollUtil (runtime, element, pollType) {
 
     this.enableSubmit = function () {
         // Enable the submit button.
-        self.submit.removeAttr("disabled");
-        self.answers.unbind("change.enableSubmit");
+        if (self.submit.attr('past-due') == "False"){
+            self.submit.removeAttr("disabled");
+            self.answers.unbind("change.enableSubmit");
+        }
     };
 
     var init_map = {'poll': self.pollInit, 'survey': self.surveyInit, 'mlq': self.mlqInit};
