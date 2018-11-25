@@ -1032,7 +1032,7 @@ class MLQBlock(PollBase):
 
         context.update({
             'choices': choices,
-            'due': get_extended_due_date(self) < datetime.datetime.now(tz=pytz.utc),
+            'due': get_extended_due_date(self) < datetime.datetime.now(tz=pytz.utc) if get_extended_due_date(self) else False,
             # Offset so choices will always be True.
             'answers': self.answers,
             'js_template': js_template,
@@ -1307,7 +1307,7 @@ class MLQBlock(PollBase):
         if self.submissions_count == self.max_submissions:
             for key in data.keys():
                 max_score += float(questions[key]['score']) * 7
-                grade_value += len(data[key]) * float(questions[key])
+                grade_value += len(data[key]) * float(questions[key]['score'])
             grade_event = {'value': grade_value, 'max_value': max_score}
             self.runtime.publish(self, 'grade', grade_event)
 
