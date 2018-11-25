@@ -1029,10 +1029,13 @@ class MLQBlock(PollBase):
             '/public/handlebars/mlq_results.handlebars')
 
         choices = self.get_choices()
-
+        if get_extended_due_date(self):
+            due = get_extended_due_date(self) < datetime.datetime.now(tz=pytz.utc)
+        else:
+            due = False
         context.update({
             'choices': choices,
-            'due': get_extended_due_date(self) < datetime.datetime.now(tz=pytz.utc) if get_extended_due_date(self) else False,
+            'due': due,
             # Offset so choices will always be True.
             'answers': self.answers,
             'js_template': js_template,
