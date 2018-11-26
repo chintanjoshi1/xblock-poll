@@ -1225,7 +1225,7 @@ class MLQBlock(PollBase):
                     record_dict['submissions_count'] = submissions['submissions_count']
                     record_dict['grade'] = record.grade
                     record_dict['max_grade'] = record.max_grade
-                    record_dict['max_grade'] = submissions['choices']
+                    record_dict['choices'] = submissions['choices']
                     record_dict['tally'] = detail
                     records.append(record_dict)
         return {

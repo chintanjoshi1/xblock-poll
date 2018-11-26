@@ -17,12 +17,12 @@
                 </tr>
             </thead>
             {{#each records}}
-              <tr class="survey-row">
+                          <td class="survey-user bordered" rowspan=4>{{user}}</td>
+                          <td class="survey-grade bordered" rowspan=4>{{grade}}</td>
+                          <td class="survey-max-grade bordered" rowspan=4>{{max_grade}}</td>
+                          <td class="survey-sub bordered" rowspan=4>{{submissions_count}}</td>
               {{#each tally}}
-                          <td class="survey-question">{{user}}</td>
-                          <td class="survey-question">{{grade}}</td>
-                          <td class="survey-question">{{max_grade}}</td>
-                          <td class="survey-question">{{submissions_count}}</td>
+              <tr class="survey-row">
                       <td class="survey-question">
                           {{#if img}}
                               <div class="poll-image-td">
@@ -34,7 +34,7 @@
                       {{#each answers}}
                           <td class="survey-percentage survey-option{{#if choice}} survey-choice{{/if}}{{#if top}} poll-top-choice{{/if}}" aria-labelledby="answer-{{key}}-{{../../block_id}}">
                               <span class="visible-mobile-only">
-                                  {{#each ../../answers}}
+                                  {{#each ../../../answers}}
                                           {{label}}
                                   {{/each}}
                               </span>
@@ -48,8 +48,8 @@
                           </td>
                       {{/each}}
                           <td class="survey-percentage survey-opinion"> {{checked_count}} </td>
-              {{/each}}
               </tr>
+              {{/each}}
             {{/each}}
         </table>
         <input class="input-main" type="button" name="poll-submit" value="{{i18n "Submit"}}" disabled>
