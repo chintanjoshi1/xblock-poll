@@ -1210,7 +1210,6 @@ class MLQBlock(PollBase):
 
     @PollBase.static_replace_json_handler
     def get_results(self, data, suffix=''):
-        record_dict = {}
         records = []
         if self.private_results and not self.can_view_private_results():
             detail, total = {}, None
@@ -1220,12 +1219,13 @@ class MLQBlock(PollBase):
             record_list = StudentModule.objects.filter(module_state_key=self.location)
             if record_list:
                 for record in record_list:
+                    record_dict = {}
                     submissions = json.loads(record.state)
                     record_dict['user'] = record.student.username
                     record_dict['submissions_count'] = submissions['submissions_count']
                     record_dict['grade'] = record.grade
                     record_dict['max_grade'] = record.max_grade
-                    choices = submissions.choices
+                    choices = submissions['choices']
                     for question in detail:
                         for index, answer in enumerate(question['answers']):
                             answer['choice'] = False
