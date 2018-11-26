@@ -37,6 +37,7 @@ from xblock.fields import Scope, String, Dict, List, Boolean, Integer
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from xblockutils.resources import ResourceLoader
+from courseware.models import StudentModule
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 from xmodule.util.duedate import get_extended_due_date
 from .utils import _
@@ -821,6 +822,7 @@ class SurveyBlock(PollBase):
         else:
             self.publish_event_from_dict(self.event_namespace + '.view_results', {})
             detail, total = self.tally_detail()
+
         return {
             'answers': [
                 {'key': key, 'label': label} for key, label in self.answers
@@ -1208,11 +1210,23 @@ class MLQBlock(PollBase):
 
     @PollBase.static_replace_json_handler
     def get_results(self, data, suffix=''):
+            record_dict = {}
+            records = []
         if self.private_results and not self.can_view_private_results():
             detail, total = {}, None
         else:
             self.publish_event_from_dict(self.event_namespace + '.view_results', {})
             detail, total = self.tally_detail()
+            record_list = StudentModule.objects.filter(module_state_key=self.location)
+            if record_list:
+                for record in record_list:
+                    submissions = json.loads(record.state)
+                    record_dict['user'] = record.student.username
+                    record_dict['submissions_count'] = submissions['submissions_count']
+                    record_dict['grade'] = record.grade
+                    record_dict['max_grade'] = record.max_grade
+                    record_dict['max_grade'] = submissions['choices']
+                    records.append(record_dict)
         return {
             'answers': [
                 {'key': key, 'label': label} for key, label in self.answers
@@ -1223,7 +1237,8 @@ class MLQBlock(PollBase):
             'plural': total > 1,
             'block_name': self.block_name,
             # a11y: Transfer block ID to enable creating unique ids for questions and answers in the template
-            'block_id': self._get_block_id()
+            'block_id': self._get_block_id(),
+            'records': records
         }
 
     @XBlock.json_handler
