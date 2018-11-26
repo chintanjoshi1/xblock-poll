@@ -1225,7 +1225,12 @@ class MLQBlock(PollBase):
                     record_dict['submissions_count'] = submissions['submissions_count']
                     record_dict['grade'] = record.grade
                     record_dict['max_grade'] = record.max_grade
-                    record_dict['choices'] = submissions['choices']
+                    choices = submissions.choices
+                    for question in detail:
+                        for index, answer in enumerate(question['answers']):
+                            answer['choice'] = False
+                            if answer['key'] in choices.get(question['key']):
+                                answer['choice'] = True
                     record_dict['tally'] = detail
                     records.append(record_dict)
         return {
