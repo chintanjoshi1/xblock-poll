@@ -1210,8 +1210,8 @@ class MLQBlock(PollBase):
 
     @PollBase.static_replace_json_handler
     def get_results(self, data, suffix=''):
-            record_dict = {}
-            records = []
+        record_dict = {}
+        records = []
         if self.private_results and not self.can_view_private_results():
             detail, total = {}, None
         else:
@@ -1226,6 +1226,7 @@ class MLQBlock(PollBase):
                     record_dict['grade'] = record.grade
                     record_dict['max_grade'] = record.max_grade
                     record_dict['max_grade'] = submissions['choices']
+                    record_dict['tally'] = detail
                     records.append(record_dict)
         return {
             'answers': [
