@@ -1226,6 +1226,7 @@ class MLQBlock(PollBase):
                     record_dict['grade'] = record.grade
                     record_dict['max_grade'] = record.max_grade
                     choices = submissions['choices']
+                    record_dict['rowspan'] = len(choices.keys())
                     detail, total = self.tally_detail()
                     for question in detail:
                         question['checked_count'] = len(choices.get(question['key']))

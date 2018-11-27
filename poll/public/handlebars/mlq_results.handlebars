@@ -17,10 +17,10 @@
                 </tr>
             </thead>
             {{#each records}}
-                          <td class="survey-user bordered" rowspan=4>{{user}}</td>
-                          <td class="survey-grade bordered" rowspan=4>{{grade}}</td>
-                          <td class="survey-max-grade bordered" rowspan=4>{{max_grade}}</td>
-                          <td class="survey-sub bordered" rowspan=4>{{submissions_count}}</td>
+                          <td class="survey-user bordered" rowspan={{rowspan}}>{{user}}</td>
+                          <td class="survey-grade bordered" rowspan={{rowspan}}>{{grade}}</td>
+                          <td class="survey-max-grade bordered" rowspan={{rowspan}}>{{max_grade}}</td>
+                          <td class="survey-sub bordered" rowspan={{rowspan}}>{{submissions_count}}</td>
               {{#each tally}}
               <tr class="survey-row">
                       <td class="survey-question">
